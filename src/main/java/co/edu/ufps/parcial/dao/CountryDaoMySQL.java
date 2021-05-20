@@ -32,9 +32,9 @@ public class CountryDaoMySQL implements CountryDao {
 	}
 
 	@Override
-	public void update(String country) throws SQLException {
+	public void update(Country country) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

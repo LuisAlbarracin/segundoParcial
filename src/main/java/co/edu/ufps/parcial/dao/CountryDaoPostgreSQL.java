@@ -1,7 +1,9 @@
 package co.edu.ufps.parcial.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.ufps.parcial.modelo.Country;
@@ -38,13 +40,46 @@ public class CountryDaoPostgreSQL implements CountryDao {
 	@Override
 	public Country select(String id) {
 		// TODO Auto-generated method stub
-		return null;
+		Country country = null;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_COUNTRY_BY_ID);
+			preparedStatement.setString(1,id);
+			
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				String name = rs.getString("name");
+				
+				country = new Country(id, name);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return country;
 	}
 
 	@Override
 	public List<Country> selectAll() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Country> countries = new ArrayList<>();
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_COUNTRY_SQL);
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				String id = rs.getString("id");
+				String name = rs.getString("name");
+				
+				countries.add(new Country(id, name));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return countries;
 	}
 
 	@Override

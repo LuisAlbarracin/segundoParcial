@@ -6,8 +6,8 @@ public class Team implements Serializable {
 
 	private String id;
 	private String name;
-	private String country;
-	public Team(String id, String name, String country) {
+	private Country country;
+	public Team(String id, String name, Country country) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -34,10 +34,10 @@ public class Team implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 	

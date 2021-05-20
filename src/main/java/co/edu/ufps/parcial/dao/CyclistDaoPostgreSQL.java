@@ -2,10 +2,14 @@ package co.edu.ufps.parcial.dao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.ufps.parcial.modelo.Country;
 import co.edu.ufps.parcial.modelo.Cyclist;
+import co.edu.ufps.parcial.modelo.Team;
 import co.edu.ufps.parcial.util.ConexionPostgreSQL;
 
 public class CyclistDaoPostgreSQL implements CyclistDao {
@@ -43,13 +47,54 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 	@Override
 	public Cyclist select(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		Cyclist cyclist = null;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_CYCLIST_BY_ID);
+			preparedStatement.setInt(1,id);
+			
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				Date birthday = rs.getDate("birthday");
+				String country = rs.getString("country");
+				String team = rs.getString("team");
+				
+				cyclist = new Cyclist(id, name, email, birthday, new Country(country), new Team(team));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cyclist;
 	}
 
 	@Override
 	public List<Cyclist> selectAll() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Cyclist> cyclistes = new ArrayList<>();
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_CYCLIST_SQL);
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				Date birthday = rs.getDate("birthday");
+				String country = rs.getString("country");
+				String team = rs.getString("team");
+				
+				cyclistes.add(new Cyclist(id, name, email, birthday,new Country(country), new Team(team)));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cyclistes;
 	}
 
 	@Override
