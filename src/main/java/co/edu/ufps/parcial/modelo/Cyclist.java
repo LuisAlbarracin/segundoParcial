@@ -5,15 +5,15 @@ import java.util.Date;
 
 public class Cyclist implements Serializable {
 	private Integer id;
-	private String nombre;
+	private String name;
 	private String email;
 	private Date birthdate;
 	private Country country;
 	private Team team;
-	public Cyclist(Integer id, String nombre, String email, Date birthdate, Country country, Team team) {
+	public Cyclist(Integer id, String name, String email, Date birthdate, Country country, Team team) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
+		this.name = name;
 		this.email = email;
 		this.birthdate = birthdate;
 		this.country = country;
@@ -32,11 +32,11 @@ public class Cyclist implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getEmail() {
 		return email;
