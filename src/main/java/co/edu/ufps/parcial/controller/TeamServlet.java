@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import co.edu.ufps.parcial.dao.CountryDao;
+import co.edu.ufps.parcial.dao.CountryDaoFactory;
 import co.edu.ufps.parcial.dao.TeamDao;
 import co.edu.ufps.parcial.dao.TeamDaoFactory;
 import co.edu.ufps.parcial.modelo.Country;
@@ -19,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class TeamServlet
  */
-@WebServlet({ "/TeamServlet", "/Team" })
+@WebServlet({"/team" })
 public class TeamServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TeamDao teamDao;
@@ -31,7 +33,7 @@ public class TeamServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
     	String type = getServletContext().getInitParameter("type");
 		this.teamDao = TeamDaoFactory.getTeamDao(type);
 	}
@@ -45,19 +47,19 @@ public class TeamServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/new":
+			case "/team/new":
 				showNewForm(request, response);
 				break;
-			case "/insert":
+			case "/team/insert":
 				insertarTeam(request, response);
 				break;
-			case "/delete":
+			case "/team/delete":
 				eliminarTeam(request, response);
 				break;
-			case "/edit":
+			case "/team/edit":
 				showEditForm(request, response);
 				break;
-			case "/update":
+			case "/team/update":
 				actualizarTeam(request, response);
 				break;
 			default:
@@ -80,7 +82,7 @@ public class TeamServlet extends HttpServlet {
 	
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/team.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -101,10 +103,14 @@ public class TeamServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		
 		Team teamActual = teamDao.select(id);
-		
+		String type = getServletContext().getInitParameter("type");
+		CountryDao countrydao = CountryDaoFactory.getCountryDao(type);
+		List<Country> listCountry = countrydao.selectAll();
+				
+		request.setAttribute("listCountry", listCountry);
 		request.setAttribute("team", teamActual);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("team.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/team.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -135,7 +141,7 @@ public class TeamServlet extends HttpServlet {
 		List<Team> listTeams =  teamDao.selectAll(); 
 		request.setAttribute("listTeams", listTeams);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("teamlist.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/teamlist.jsp");
 		dispatcher.forward(request, response);
 	}
 

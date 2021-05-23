@@ -84,11 +84,10 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
-				Date birthday = rs.getDate("birthday");
 				String country = rs.getString("country");
 				String team = rs.getString("team");
 				
-				cyclistes.add(new Cyclist(id, name, email, birthday,new Country(country), new Team(team)));
+				cyclistes.add(new Cyclist(id, name, email,new Country(country), new Team(team)));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();

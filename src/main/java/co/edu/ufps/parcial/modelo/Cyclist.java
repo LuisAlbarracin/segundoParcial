@@ -10,6 +10,7 @@ public class Cyclist implements Serializable {
 	private Date birthdate;
 	private Country country;
 	private Team team;
+	
 	public Cyclist(Integer id, String name, String email, Date birthdate, Country country, Team team) {
 		super();
 		this.id = id;
@@ -19,9 +20,31 @@ public class Cyclist implements Serializable {
 		this.country = country;
 		this.team = team;
 	}
+	
 	public Cyclist() {
 		super();
 	}
+	
+	
+	
+	public Cyclist(Integer id, String name, String email, Country country, Team team) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.country = country;
+		this.team = team;
+	}
+
+	public Cyclist(String name, String email, Date birthdate, Country country, Team team) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.birthdate = birthdate;
+		this.country = country;
+		this.team = team;
+	}
+
 	public Cyclist(Integer id) {
 		super();
 		this.id = id;

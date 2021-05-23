@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class CountryServlet
  */
-@WebServlet({ "/CountryServlet", "/Country" })
+@WebServlet({"/country" })
 public class CountryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CountryDao countryDao;
@@ -46,19 +46,19 @@ public class CountryServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/new":
+			case "/country/new":
 				showNewForm(request, response);
 				break;
-			case "/insert":
+			case "/country/insert":
 				insertarCountry(request, response);
 				break;
-			case "/delete":
+			case "/country/delete":
 				eliminarCountry(request, response);
 				break;
-			case "/edit":
+			case "/country/edit":
 				showEditForm(request, response);
 				break;
-			case "/update":
+			case "/country/update":
 				actualizarCountry(request, response);
 				break;
 			default:
@@ -81,7 +81,7 @@ public class CountryServlet extends HttpServlet {
 	
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("country.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/country.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -104,7 +104,7 @@ public class CountryServlet extends HttpServlet {
 		
 		request.setAttribute("country", countryActual);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("country.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/country.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -134,7 +134,7 @@ public class CountryServlet extends HttpServlet {
 		List<Country> listCountry =  countryDao.selectAll(); 
 		request.setAttribute("listCountry", listCountry);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("countrylist.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/countrylist.jsp");
 		dispatcher.forward(request, response);
 	}
 

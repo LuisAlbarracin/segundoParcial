@@ -4,10 +4,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
+import co.edu.ufps.parcial.dao.CountryDao;
+import co.edu.ufps.parcial.dao.CountryDaoFactory;
 import co.edu.ufps.parcial.dao.CyclistDao;
 import co.edu.ufps.parcial.dao.CyclistDaoFactory;
+import co.edu.ufps.parcial.dao.TeamDao;
+import co.edu.ufps.parcial.dao.TeamDaoFactory;
+import co.edu.ufps.parcial.modelo.Country;
 import co.edu.ufps.parcial.modelo.Cyclist;
+import co.edu.ufps.parcial.modelo.Team;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -19,7 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class CyclistServlet
  */
-@WebServlet({ "/CyclistServlet", "/Cyclist" })
+@WebServlet({"/cyclist" })
 public class CyclistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CyclistDao cyclistDao;
@@ -34,7 +42,7 @@ public class CyclistServlet extends HttpServlet {
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
-	public void init(ServletConfig config) throws ServletException {
+	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		String type = getServletContext().getInitParameter("type");
 		this.cyclistDao = CyclistDaoFactory.getCyclistDao(type);
@@ -49,19 +57,20 @@ public class CyclistServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/new":
+			case "/cyclist/new":
+				System.out.println("New Cyclist");
 				showNewForm(request, response);
 				break;
-			case "/insert":
+			case "/cyclist/insert":
 				insertarCyclist(request, response);
 				break;
-			case "/delete":
+			case "/cyclist/delete":
 				eliminarCyclist(request, response);
 				break;
-			case "/edit":
+			case "/cyclist/edit":
 				showEditForm(request, response);
 				break;
-			case "/update":
+			case "/cyclist/update":
 				actualizarCyclist(request, response);
 				break;
 			default:
@@ -69,7 +78,7 @@ public class CyclistServlet extends HttpServlet {
 				break;
 
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ParseException e) {
 			throw new ServletException(e);
 		}
 	}
@@ -85,22 +94,23 @@ public class CyclistServlet extends HttpServlet {
 	
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/cyclist.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void insertarCyclist(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
+			throws SQLException, IOException, ServletException, ParseException {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		//Date birthday = Date.parse(request.getParameter("birthday"));
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date birthday = formatter.parse(request.getParameter("birthday"));
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist usuario = new Cyclist(name, email, birthday, country, team);
+		Cyclist usuario = new Cyclist(name, email, birthday, new Country(country),new Team(team));
 		cyclistDao.insert(usuario);
 
-		response.sendRedirect("list");
+		response.sendRedirect("/cyclist/list");
 	}
 	
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
@@ -109,25 +119,35 @@ public class CyclistServlet extends HttpServlet {
 		
 		Cyclist cyclistActual = cyclistDao.select(id);
 		
+		String type = getServletContext().getInitParameter("type");
+		TeamDao teamdao = TeamDaoFactory.getTeamDao(type);
+		List<Team> listTeam = teamdao.selectAll();
+		CountryDao countrydao = CountryDaoFactory.getCountryDao(type);
+		List<Country> listCountry = countrydao.selectAll();
+				
+		request.setAttribute("listCountry", listCountry);
+				
+		request.setAttribute("listTeam", listTeam);
 		request.setAttribute("cyclist", cyclistActual);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/cyclist.jsp");
 		dispatcher.forward(request, response);
 	}
 	
-	private void actualizarCyclist(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
+	private void actualizarCyclist(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException, ParseException{
 		// TODO Auto-generated method stub
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		//Date birthday = Date.parse(request.getParameter("birthday"));
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date birthday = formatter.parse(request.getParameter("birthday"));
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(id, name, email, birthday, country, team);
+		Cyclist cyclist = new Cyclist(id, name, email, birthday, new Country(country), new Team(team));
 		cyclistDao.update(cyclist);
 
-		response.sendRedirect("list");
+		response.sendRedirect("/cyclist/list");
 	}
 
 	private void eliminarCyclist(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{

@@ -66,4 +66,14 @@ public class ConexionPostgreSQL {
 		this.preparedStatement = con.prepareStatement(sql);
 		return preparedStatement;
 	}
+	
+	
+	public static void main(String[] args) {
+		try {
+			ConexionPostgreSQL.getConexion().setPreparedStatement("SELECT * FROM cyclist");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
