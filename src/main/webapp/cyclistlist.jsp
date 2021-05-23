@@ -44,11 +44,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>Nombre</th>
-						<th>Email</th>
-						<th>Cumpleaños</th>
-						<th>Pais</th>
+						<th colspan="3" class="text-center">Corredor</th>
 						<th>Equipo</th>
 					</tr>
 				</thead>
@@ -59,8 +55,6 @@
 						<tr>
 							<td><c:out value="${ciclista.id}" /></td>
 							<td><c:out value="${ciclista.name}" /></td>
-							<td><c:out value="${ciclista.email}" /></td>
-							<td><c:out value="${ciclista.birthdate}" /></td>
 							<td><c:out value="${ciclista.country}" /></td>
 							<td><c:out value="${ciclista.team}" /></td>
 							<td><a href="edit?id=<c:out value='${ciclista.id}' />">Editar</a>

@@ -114,6 +114,10 @@ public class CyclistServlet extends HttpServlet {
 		
 		Cyclist cyclistActual = cyclistDao.select(id);
 		
+		System.out.println(cyclistActual.getName());
+		System.out.println(cyclistActual.getEmail());
+		System.out.println(cyclistActual.getBirthdate());
+		
 		List<String> listTeam = cyclistDao.selectAllTeam();
 		List<String> listCountry = cyclistDao.selectAllCountry();
 		

@@ -62,6 +62,8 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 				String team = rs.getString("team");
 				
 				cyclist = new Cyclist(id, name, email, birthday, country, team);
+				
+				System.out.println(id+name+email+birthday+country+team);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
