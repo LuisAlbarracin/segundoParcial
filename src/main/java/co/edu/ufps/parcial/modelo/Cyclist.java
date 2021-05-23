@@ -8,10 +8,10 @@ public class Cyclist implements Serializable {
 	private String name;
 	private String email;
 	private Date birthdate;
-	private Country country;
-	private Team team;
+	private String country;
+	private String team;
 	
-	public Cyclist(Integer id, String name, String email, Date birthdate, Country country, Team team) {
+	public Cyclist(Integer id, String name, String email, Date birthdate, String country, String team) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -27,7 +27,7 @@ public class Cyclist implements Serializable {
 	
 	
 	
-	public Cyclist(Integer id, String name, String email, Country country, Team team) {
+	public Cyclist(Integer id, String name, String email, String country, String team) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,7 +36,7 @@ public class Cyclist implements Serializable {
 		this.team = team;
 	}
 
-	public Cyclist(String name, String email, Date birthdate, Country country, Team team) {
+	public Cyclist(String name, String email, Date birthdate, String country, String team) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -73,16 +73,16 @@ public class Cyclist implements Serializable {
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
-	public Country getCountry() {
+	public String getCountry() {
 		return country;
 	}
-	public void setCountry(Country country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
-	public Team getTeam() {
+	public String getTeam() {
 		return team;
 	}
-	public void setTeam(Team team) {
+	public void setTeam(String team) {
 		this.team = team;
 	}
 	

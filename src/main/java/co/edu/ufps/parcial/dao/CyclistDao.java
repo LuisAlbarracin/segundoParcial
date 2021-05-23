@@ -13,5 +13,7 @@ public interface CyclistDao {
 	public List<Cyclist> selectAll();
 	public void delete(int id) throws SQLException;
 	public void update(Cyclist cyclist) throws SQLException;
+	public List<String> selectAllCountry() throws SQLException;
+	public List<String> selectAllTeam() throws SQLException;
 	
 }

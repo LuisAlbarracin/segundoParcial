@@ -75,9 +75,9 @@
 				<fieldset class="form-group">
 					<label>Pais del Ciclista</label> <select name="country" required
 						class="form-control">
-						<c:forEach var="pais" items="${listCountry">
-							<option value="<c:out value='${country.id}' />"><c:out
-									value='${country.name}' /></option>
+						<c:forEach var="country" items="${listCountry}">
+							<option value="<c:out value='${country}' />"><c:out
+									value='${country}' /></option>
 						</c:forEach>
 					</select>
 				</fieldset>
@@ -85,9 +85,9 @@
 				<fieldset class="form-group">
 					<label>Equipo del Ciclista</label> <select name="team" required
 						class="form-control">
-						<c:forEach var="equipo" items="${listTeam}">
-							<option value="<c:out value='${equipo.id}' />"><c:out
-									value='${equipo.name}' /></option>
+						<c:forEach var="team" items="${listTeam}">
+							<option value="<c:out value='${team}' />"><c:out
+									value='${team}' /></option>
 						</c:forEach>
 					</select>
 				</fieldset>

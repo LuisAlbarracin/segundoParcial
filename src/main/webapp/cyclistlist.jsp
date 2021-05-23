@@ -37,7 +37,7 @@
 			<hr>
 			<div class="container text-left">
 
-				<a href="<%=request.getContextPath()%>/cyclist/new" class="btn btn-success">Agregar
+				<a href="<%=request.getContextPath()%>/new" class="btn btn-success">Agregar
 					Nuevo Ciclista</a>
 			</div>
 			<br>

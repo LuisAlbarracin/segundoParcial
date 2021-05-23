@@ -2,20 +2,13 @@ package co.edu.ufps.parcial.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import co.edu.ufps.parcial.dao.CountryDao;
-import co.edu.ufps.parcial.dao.CountryDaoFactory;
 import co.edu.ufps.parcial.dao.CyclistDao;
 import co.edu.ufps.parcial.dao.CyclistDaoFactory;
-import co.edu.ufps.parcial.dao.TeamDao;
-import co.edu.ufps.parcial.dao.TeamDaoFactory;
-import co.edu.ufps.parcial.modelo.Country;
 import co.edu.ufps.parcial.modelo.Cyclist;
-import co.edu.ufps.parcial.modelo.Team;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -27,11 +20,11 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class CyclistServlet
  */
-@WebServlet({"/cyclist" })
+@WebServlet({ "/CyclistServlet", "/" })
 public class CyclistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CyclistDao cyclistDao;
-	
+
     /**
      * Default constructor. 
      */
@@ -43,7 +36,6 @@ public class CyclistServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init() throws ServletException {
-		// TODO Auto-generated method stub
 		String type = getServletContext().getInitParameter("type");
 		this.cyclistDao = CyclistDaoFactory.getCyclistDao(type);
 	}
@@ -57,20 +49,19 @@ public class CyclistServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/cyclist/new":
-				System.out.println("New Cyclist");
+			case "/new":
 				showNewForm(request, response);
 				break;
-			case "/cyclist/insert":
+			case "/insert":
 				insertarCyclist(request, response);
 				break;
-			case "/cyclist/delete":
+			case "/delete":
 				eliminarCyclist(request, response);
 				break;
-			case "/cyclist/edit":
+			case "/edit":
 				showEditForm(request, response);
 				break;
-			case "/cyclist/update":
+			case "/update":
 				actualizarCyclist(request, response);
 				break;
 			default:
@@ -78,7 +69,7 @@ public class CyclistServlet extends HttpServlet {
 				break;
 
 			}
-		} catch (SQLException | ParseException e) {
+		} catch (SQLException e) {
 			throw new ServletException(e);
 		}
 	}
@@ -91,63 +82,62 @@ public class CyclistServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/cyclist.jsp");
+			throws ServletException, IOException, SQLException {
+		
+		List<String> listTeam = cyclistDao.selectAllTeam();
+		List<String> listCountry = cyclistDao.selectAllCountry();
+		
+		request.setAttribute("listTeam", listTeam);
+		request.setAttribute("listCountry", listCountry);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("cyclist.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void insertarCyclist(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException, ParseException {
+			throws SQLException, IOException, ServletException {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date birthday = formatter.parse(request.getParameter("birthday"));
+		String birthday = request.getParameter("birthday");
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist usuario = new Cyclist(name, email, birthday, new Country(country),new Team(team));
-		cyclistDao.insert(usuario);
+		Cyclist cyclist = new Cyclist(name, email, new Date(), country, team);
+		cyclistDao.insert(cyclist);
 
-		response.sendRedirect("/cyclist/list");
+		response.sendRedirect("list");
 	}
 	
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Cyclist cyclistActual = cyclistDao.select(id);
 		
-		String type = getServletContext().getInitParameter("type");
-		TeamDao teamdao = TeamDaoFactory.getTeamDao(type);
-		List<Team> listTeam = teamdao.selectAll();
-		CountryDao countrydao = CountryDaoFactory.getCountryDao(type);
-		List<Country> listCountry = countrydao.selectAll();
-				
-		request.setAttribute("listCountry", listCountry);
-				
+		List<String> listTeam = cyclistDao.selectAllTeam();
+		List<String> listCountry = cyclistDao.selectAllCountry();
+		
 		request.setAttribute("listTeam", listTeam);
+		request.setAttribute("listCountry", listCountry);
 		request.setAttribute("cyclist", cyclistActual);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/cyclist.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("cyclist.jsp");
 		dispatcher.forward(request, response);
 	}
 	
-	private void actualizarCyclist(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException, ParseException{
+	private void actualizarCyclist(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
 		// TODO Auto-generated method stub
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date birthday = formatter.parse(request.getParameter("birthday"));
+		String birthday = request.getParameter("birthday");
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(id, name, email, birthday, new Country(country), new Team(team));
+		Cyclist cyclist = new Cyclist(id, name, email, new Date(), country, team);
 		cyclistDao.update(cyclist);
 
-		response.sendRedirect("/cyclist/list");
+		response.sendRedirect("list");
 	}
 
 	private void eliminarCyclist(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
@@ -163,10 +153,11 @@ public class CyclistServlet extends HttpServlet {
 	private void listCyclist(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException {
 		// TODO Auto-generated method stub
 		List<Cyclist> listCyclist =  cyclistDao.selectAll(); 
-		request.setAttribute("listCyclists", listCyclist);
+		request.setAttribute("listCyclist", listCyclist);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/cyclistlist.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("cyclistlist.jsp");
 		dispatcher.forward(request, response);
 	}
+	
 
 }

@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.ufps.parcial.modelo.Country;
 import co.edu.ufps.parcial.modelo.Cyclist;
-import co.edu.ufps.parcial.modelo.Team;
 import co.edu.ufps.parcial.util.ConexionPostgreSQL;
 
 public class CyclistDaoPostgreSQL implements CyclistDao {
@@ -21,7 +19,8 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 	private static final String UPDATE_CYCLIST_SQL = "UPDATE cyclist SET name = ?, email = ?, birthday = ?, country = ?, team = ? WHERE id = ?;";
 	private static final String SELECT_CYCLIST_BY_ID = "SELECT * FROM cyclist WHERE id = ?;";
 	private static final String SELECT_ALL_CYCLIST_SQL = "SELECT * FROM cyclist;";
-
+	private static final String SELECT_ALL_TEAM = "SELECT id FROM team;";
+	private static final String SELECT_ALL_COUNTRY = "SELECT id FROM country";
 	
 	public CyclistDaoPostgreSQL() {
 		this.conexion = ConexionPostgreSQL.getConexion();
@@ -36,8 +35,8 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 			preparedStatement.setString(1, cyclist.getName());
 			preparedStatement.setString(2, cyclist.getEmail());
 			preparedStatement.setDate(3, (Date) cyclist.getBirthdate());
-			preparedStatement.setString(4, cyclist.getCountry().getId());
-			preparedStatement.setString(5, cyclist.getTeam().getId());
+			preparedStatement.setString(4, cyclist.getCountry());
+			preparedStatement.setString(5, cyclist.getTeam());
 			conexion.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +61,7 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 				String country = rs.getString("country");
 				String team = rs.getString("team");
 				
-				cyclist = new Cyclist(id, name, email, birthday, new Country(country), new Team(team));
+				cyclist = new Cyclist(id, name, email, birthday, country, team);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -87,7 +86,7 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 				String country = rs.getString("country");
 				String team = rs.getString("team");
 				
-				cyclistes.add(new Cyclist(id, name, email,new Country(country), new Team(team)));
+				cyclistes.add(new Cyclist(id, name, email, country, team));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -119,13 +118,55 @@ public class CyclistDaoPostgreSQL implements CyclistDao {
 			preparedStatement.setString(1, cyclist.getName());
 			preparedStatement.setString(2, cyclist.getEmail());
 			preparedStatement.setDate(3, (Date) cyclist.getBirthdate());
-			preparedStatement.setString(4, cyclist.getCountry().getId());
-			preparedStatement.setString(5, cyclist.getTeam().getId());
+			preparedStatement.setString(4, cyclist.getCountry());
+			preparedStatement.setString(5, cyclist.getTeam());
 			preparedStatement.setInt(6, cyclist.getId());
 			conexion.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public List<String> selectAllTeam() {
+		// TODO Auto-generated method stub
+		List<String> teams = new ArrayList<>();
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_TEAM);
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				String id = rs.getString("id");
+				
+				teams.add(id);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return teams;
+	}
+	
+	public List<String> selectAllCountry() {
+		// TODO Auto-generated method stub
+		List<String> country = new ArrayList<>();
+		
+		try {
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_COUNTRY);
+			ResultSet rs = conexion.query();
+			
+			while(rs.next()) {
+				String id = rs.getString("id");
+				
+				country.add(id);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return country;
+	}
+	
 
 }
