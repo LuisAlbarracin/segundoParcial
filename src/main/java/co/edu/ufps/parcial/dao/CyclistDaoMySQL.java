@@ -37,4 +37,16 @@ public class CyclistDaoMySQL implements CyclistDao {
 
 	}
 
+	@Override
+	public List<String> selectAllCountry() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> selectAllTeam() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

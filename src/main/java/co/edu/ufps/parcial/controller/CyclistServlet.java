@@ -98,11 +98,11 @@ public class CyclistServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String birthday = request.getParameter("birthday");
+		//String birthday = request.getParameter("birthday");
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(name, email, new Date(), country, team);
+		Cyclist cyclist = new Cyclist(name, email, null, country, team);
 		cyclistDao.insert(cyclist);
 
 		response.sendRedirect("list");
@@ -114,9 +114,6 @@ public class CyclistServlet extends HttpServlet {
 		
 		Cyclist cyclistActual = cyclistDao.select(id);
 		
-		System.out.println(cyclistActual.getName());
-		System.out.println(cyclistActual.getEmail());
-		System.out.println(cyclistActual.getBirthdate());
 		
 		List<String> listTeam = cyclistDao.selectAllTeam();
 		List<String> listCountry = cyclistDao.selectAllCountry();
@@ -134,11 +131,11 @@ public class CyclistServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String birthday = request.getParameter("birthday");
+		//String birthday = request.getParameter("birthday");
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(id, name, email, new Date(), country, team);
+		Cyclist cyclist = new Cyclist(id, name, email, null, country, team);
 		cyclistDao.update(cyclist);
 
 		response.sendRedirect("list");
