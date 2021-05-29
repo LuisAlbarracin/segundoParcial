@@ -55,8 +55,8 @@
 						<tr>
 							<td><c:out value="${ciclista.id}" /></td>
 							<td><c:out value="${ciclista.name}" /></td>
-							<td><img src="img/country_<c:out value="${ciclista.country}" />.png"/></td>
-							<td><img src="img/<c:out value="${ciclista.team}" />.png"/></td>
+							<td><img src="./img/country_<c:out value="${ciclista.country}" />.png"/></td>
+							<td><img src="./img/<c:out value="${ciclista.team}" />.png"/></td>
 							<td><a href="edit?id=<c:out value='${ciclista.id}' />">Editar</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
 								href="delete?id=<c:out value='${ciclista.id}' />">Eliminar</a></td>
