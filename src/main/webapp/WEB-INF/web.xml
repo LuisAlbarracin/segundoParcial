@@ -12,7 +12,7 @@
   
     <context-param>
   	<param-name>type</param-name>
-  	<param-value>postgresqk</param-value>
+  	<param-value>mysql</param-value>
   </context-param>
   
 </web-app>

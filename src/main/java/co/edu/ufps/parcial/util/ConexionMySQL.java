@@ -13,18 +13,17 @@ public class ConexionMySQL {
 	private PreparedStatement preparedStatement;
 	
 	private static final String URL = "jdbc:mysql://localhost:3306/";
-	private static final String DBNAME = "mnjgxshj";
+	private static final String DBNAME = "ciclismo";
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String USERNAME = "mnjgxshj";
-	private static final String PASSWORD = "Uzjqo00sxV0W9OzPEB1q3wpoVvGMbbUV";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "";
 	
 	private ConexionMySQL() {
 		
 		try {
-			Class.forName(DRIVER).newInstance();
+			Class.forName(DRIVER);
 			con = (Connection)DriverManager.getConnection(URL+DBNAME,USERNAME,PASSWORD);
-		}catch(InstantiationException | IllegalAccessException
-				| ClassNotFoundException | SQLException e) {
+		}catch(ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();

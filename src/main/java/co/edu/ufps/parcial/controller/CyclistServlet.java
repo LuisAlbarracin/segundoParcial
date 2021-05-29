@@ -2,6 +2,8 @@ package co.edu.ufps.parcial.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -98,11 +100,19 @@ public class CyclistServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		//String birthday = request.getParameter("birthday");
+		String textoFecha = request.getParameter("birthday");
+		SimpleDateFormat ffecha = new SimpleDateFormat("yyyy/mm/dd");
+		Date birthday = null;
+		try {
+			birthday = ffecha.parse(textoFecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(name, email, null, country, team);
+		Cyclist cyclist = new Cyclist(name, email, birthday, country, team);
 		cyclistDao.insert(cyclist);
 
 		response.sendRedirect("list");
@@ -131,11 +141,19 @@ public class CyclistServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		//String birthday = request.getParameter("birthday");
+		String textoFecha = request.getParameter("birthday");
+		SimpleDateFormat ffecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date birthday = null;
+		try {
+			birthday = ffecha.parse(textoFecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String country = request.getParameter("country");
 		String team = request.getParameter("team");
 
-		Cyclist cyclist = new Cyclist(id, name, email, null, country, team);
+		Cyclist cyclist = new Cyclist(id, name, email, birthday, country, team);
 		cyclistDao.update(cyclist);
 
 		response.sendRedirect("list");
