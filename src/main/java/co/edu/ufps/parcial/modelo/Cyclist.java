@@ -7,7 +7,7 @@ public class Cyclist implements Serializable {
 	private Integer id;
 	private String name;
 	private String email;
-	private Date birthdate;
+	private Date birthday;
 	private String country;
 	private String team;
 	
@@ -16,7 +16,7 @@ public class Cyclist implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.birthdate = birthdate;
+		this.birthday = birthdate;
 		this.country = country;
 		this.team = team;
 	}
@@ -40,7 +40,7 @@ public class Cyclist implements Serializable {
 		super();
 		this.name = name;
 		this.email = email;
-		this.birthdate = birthdate;
+		this.birthday = birthdate;
 		this.country = country;
 		this.team = team;
 	}
@@ -67,11 +67,11 @@ public class Cyclist implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getBirthdate() {
-		return birthdate;
+	public Date getBirthday() {
+		return birthday;
 	}
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setBirthday(Date birthdate) {
+		this.birthday = birthdate;
 	}
 	public String getCountry() {
 		return country;

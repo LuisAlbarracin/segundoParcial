@@ -14,8 +14,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: tomato">
+		<nav class="navbar navbar-expand-md navbar-dark bg-info text-white">
 			<div>
 				<a href="#" class="navbar-brand"> Gestión de Ciclistas </a>
 			</div>
@@ -29,10 +28,10 @@
 	</header>
 	<br />
 
-	<div class="row">
+	<div class="container mt-2">
 		<!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
 
-		<div class="container">
+		<div class="row">
 			<h3 class="text-center">Listado de Ciclistas</h3>
 			<hr>
 			<div class="container text-left">
@@ -41,11 +40,15 @@
 					Nuevo Ciclista</a>
 			</div>
 			<br>
-			<table class="table table-bordered">
+			<table class="table table-bordered mt-3">
 				<thead>
 					<tr>
-						<th colspan="3" class="text-center">Corredor</th>
-						<th>Equipo</th>
+						<th class="text-center">Id</th>
+						<th class="text-center">Nombre</th>
+						<th class="text-center">Fecha Nacimiento</th>
+						<th class="text-center">Pais</th>
+						<th class="text-center">Equipo</th>
+						<th class="text-center">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,11 +58,13 @@
 						<tr>
 							<td><c:out value="${ciclista.id}" /></td>
 							<td><c:out value="${ciclista.name}" /></td>
-							<td><img src="./img/country_<c:out value="${ciclista.country}" />.png"/></td>
-							<td><img src="./img/<c:out value="${ciclista.team}" />.png"/></td>
-							<td><a href="edit?id=<c:out value='${ciclista.id}' />">Editar</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out value='${ciclista.id}' />">Eliminar</a></td>
+							<td><c:out value="${ciclista.birthday}" /></td>
+							<td><c:out value="${ciclista.country}" /></td>
+							<td><c:out value="${ciclista.team}" /></td>
+							
+							<td class="d-flex justify-content-center"><button class="p-1 mb-1 bg-warning btn-sm text-dark"><a href="edit?id=<c:out value='${ciclista.id}' />" class="text-decoration-none">Editar</a></button>
+								&nbsp;&nbsp;&nbsp;&nbsp;<button class="p-1 mb-1 bg-danger btn-sm text-white"><a
+								href="delete?id=<c:out value='${ciclista.id}' />" class="text-decoration-none">Eliminar</a></button></td>
 						</tr>
 					</c:forEach>
 					<!-- } -->

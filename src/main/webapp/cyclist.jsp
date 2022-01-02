@@ -14,8 +14,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: tomato">
+		<nav class="navbar navbar-expand-md navbar-dark bg-info text-white">
 			<div>
 				<a href="#" class="navbar-brand"> Gestión de Ciclistas </a>
 			</div>
@@ -55,51 +54,39 @@
 				</c:if>
 
 				<fieldset class="form-group">
-					<label>Nombre de Ciclista</label> <input type="text"
+					<label>Nombre</label> <input type="text"
 						value="<c:out value='${cyclist.name}' />" class="form-control"
 						name="name" required="required">
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Email del Ciclista</label> <input type="text"
+					<label>Email</label> <input type="text"
 						value="<c:out value='${cyclist.email}' />" class="form-control"
 						name="email">
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Fecha Nacimiento del Ciclista</label> <input type="date"
-						value="<c:out value='${cyclist.birthdate}' />"
+					<label>Fecha Nacimiento</label> <input type="date"
+						value="<c:out value='${cyclist.birthday}' />"
 						class="form-control" name="birthday" />
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Pais del Ciclista</label> <select name="country" required
-						class="form-control">
-						<c:forEach var="country" items="${listCountry}">
-							<option value="<c:out value='${country}' />"
-								<c:if
-									test="${country == cyclist.country}">
-									selected
-								</c:if>><c:out
-									value='${country}' /></option>
-						</c:forEach>
-					</select>
+					<label>Pais</label> <input type="text"
+						value="<c:out value='${cyclist.country}' />" class="form-control"
+						name="country" />
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Equipo del Ciclista</label> <select name="team" required
-						class="form-control">
-						<c:forEach var="team" items="${listTeam}">
-							<option value="<c:out value='${team}' />"
-								<c:if test="${team == cyclist.team}">
-									selected
-								</c:if>><c:out
-									value='${team}' /></option>
-						</c:forEach>
-					</select>
+					<label>Equipo</label> <input type="text"
+						value="<c:out value='${cyclist.team}' />" class="form-control"
+						name="team" />
 				</fieldset>
 
-				<button type="submit" class="btn btn-success">Guardar</button>
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-success mt-3 float-right">Guardar</button>
+				</div>
+				
 				</form>
 			</div>
 		</div>

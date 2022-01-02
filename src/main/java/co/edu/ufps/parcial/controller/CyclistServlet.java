@@ -87,11 +87,6 @@ public class CyclistServlet extends HttpServlet {
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 		
-		List<String> listTeam = cyclistDao.selectAllTeam();
-		List<String> listCountry = cyclistDao.selectAllCountry();
-		
-		request.setAttribute("listTeam", listTeam);
-		request.setAttribute("listCountry", listCountry);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("cyclist.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -101,8 +96,11 @@ public class CyclistServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String textoFecha = request.getParameter("birthday");
-		SimpleDateFormat ffecha = new SimpleDateFormat("yyyy/mm/dd");
+		System.out.println(textoFecha);
+		SimpleDateFormat ffecha = new SimpleDateFormat("yyyy-mm-dd");
 		Date birthday = null;
+		
+		
 		try {
 			birthday = ffecha.parse(textoFecha);
 		} catch (ParseException e) {
@@ -116,6 +114,7 @@ public class CyclistServlet extends HttpServlet {
 		cyclistDao.insert(cyclist);
 
 		response.sendRedirect("list");
+	
 	}
 	
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
@@ -124,12 +123,6 @@ public class CyclistServlet extends HttpServlet {
 		
 		Cyclist cyclistActual = cyclistDao.select(id);
 		
-		
-		List<String> listTeam = cyclistDao.selectAllTeam();
-		List<String> listCountry = cyclistDao.selectAllCountry();
-		
-		request.setAttribute("listTeam", listTeam);
-		request.setAttribute("listCountry", listCountry);
 		request.setAttribute("cyclist", cyclistActual);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("cyclist.jsp");
@@ -142,7 +135,7 @@ public class CyclistServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String textoFecha = request.getParameter("birthday");
-		SimpleDateFormat ffecha = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat ffecha = new SimpleDateFormat("yyyy-mm-dd");
 		Date birthday = null;
 		try {
 			birthday = ffecha.parse(textoFecha);
